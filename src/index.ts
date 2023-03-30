@@ -1,4 +1,4 @@
-import queryWikidata from "./queryWikidata";
+import queryWikidata from "./queryWikidata.mjs";
 
 const sparqlQuery = `
   SELECT ?city ?cityLabel WHERE {
@@ -11,6 +11,7 @@ const sparqlQuery = `
 `;
 
 (async () => {
+  console.log("start");
   const response = await queryWikidata(sparqlQuery);
   console.log(response);
 })();
