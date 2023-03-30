@@ -1,4 +1,5 @@
 import queryWikidata from "./queryWikidata.mjs";
+import { Command } from "@commander-js/extra-typings";
 
 const sparqlQuery = `
   SELECT ?city ?cityLabel WHERE {
@@ -10,8 +11,11 @@ const sparqlQuery = `
   LIMIT 5
 `;
 
-(async () => {
-  console.log("start");
+const program = new Command();
+program.argument("<file>").action(async (file) => {
   const response = await queryWikidata(sparqlQuery);
   console.log(response);
-})();
+  console.log("debug", file);
+});
+
+program.parse();
