@@ -1,0 +1,44 @@
+# ログファイル
+logs
+*.log
+npm-debug.log*
+
+# ランタイムデータ
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# ビルドディレクトリ
+build/
+dist/
+
+# 依存関係ディレクトリ
+node_modules/
+
+# キャッシュディレクトリ
+.cache
+
+# 設定ファイルや環境変数ファイル
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# IDE設定ファイル
+.vscode
+.idea
+*.suo
+*.ntvslnb
+*.sln
+*.sln.docstates
+*.sw*
+*.bak
+
+# エディタの一時ファイル
+*.tmp
+*.bak
+*.swp
+*~.nib
+*.rej
