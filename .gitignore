@@ -42,3 +42,8 @@ node_modules/
 *.swp
 *~.nib
 *.rej
+
+
+# 結果を置くディレクトリ
+results/
+sparqlResults/

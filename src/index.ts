@@ -1,21 +1,27 @@
 import queryWikidata from "./queryWikidata.mjs";
+import merge from "./merge.mjs";
 import { Command } from "@commander-js/extra-typings";
-
-const sparqlQuery = `
-  SELECT ?city ?cityLabel WHERE {
-    ?city wdt:P31 wd:Q515. # instance of city
-    ?city wdt:P1082 ?population. # has population property
-    SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }
-  }
-  ORDER BY DESC(?population)
-  LIMIT 5
-`;
+import { Queries } from "./queries/country.js";
 
 const program = new Command();
-program.argument("<file>").action(async (file) => {
-  const response = await queryWikidata(sparqlQuery);
-  console.log(response);
-  console.log("debug", file);
-});
+program
+  .command("sparql")
+  .argument("<target>")
+  .action(async (target) => {
+    const query = Queries[target];
+    if (!query) {
+      console.error("Invalid target");
+      return;
+    }
+    const response = await queryWikidata(query);
+    console.log(response);
+  });
+
+program
+  .command("merge")
+  .argument("<target>")
+  .action(async (target) => {
+    merge(target);
+  });
 
 program.parse();
