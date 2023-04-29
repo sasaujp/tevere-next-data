@@ -13,7 +13,7 @@ program
         console.error("Invalid target");
         return;
       }
-      for (const [_, value] of Object.entries(query)) {
+      for (const value of Object.values(query)) {
         const response = await queryWikidata(category, value);
         console.log(response);
       }
