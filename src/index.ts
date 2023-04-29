@@ -32,6 +32,12 @@ program
   .command("merge")
   .argument("<target>")
   .action(async (target) => {
+    if (target === "all") {
+      for (const key of Object.keys(Queries)) {
+        await merge(key);
+      }
+      return;
+    }
     merge(target);
   });
 

@@ -8,7 +8,10 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "ts-node --esm src/index.ts",
     "build": "tsc",
-    "start:prod": "npm run build && node dist/index.js"
+    "start:prod": "npm run build && node dist/index.js",
+    "country:all": "ts-node --esm src/index.ts sparql country all",
+    "capital:all": "ts-node --esm src/index.ts sparql capital all",
+    "merge:all": "ts-node --esm src/index.ts merge all"
   },
   "keywords": [],
   "author": "",
