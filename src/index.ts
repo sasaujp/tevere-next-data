@@ -7,6 +7,18 @@ const program = new Command();
 program
   .command("sparql <category> <target>")
   .action(async (category, target) => {
+    if (target === "all") {
+      const query = Queries[category as keyof typeof Queries];
+      if (!query) {
+        console.error("Invalid target");
+        return;
+      }
+      for (const [_, value] of Object.entries(query)) {
+        const response = await queryWikidata(category, value);
+        console.log(response);
+      }
+      return;
+    }
     const query = Queries[category as keyof typeof Queries][target];
     if (!query) {
       console.error("Invalid target");
