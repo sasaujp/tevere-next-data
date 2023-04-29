@@ -29,10 +29,11 @@ async function merge(category: string) {
           (v: string) => v !== category
         );
         jsonData["results"]["bindings"].forEach((binding: any) => {
-          const key = binding["country"]["value"];
+          const key = binding[category]["value"];
           if (!mergedData[key]) {
             mergedData[key] = {};
           }
+          // ラベルやアブストラクトは言語ごとに分かれているので、それを統合する
           if (vars.includes("language")) {
             const language = binding["language"]["value"];
             const label = binding["label"]["value"];
@@ -40,7 +41,30 @@ async function merge(category: string) {
               mergedData[key]["label"] = {};
             }
             mergedData[key]["label"][language] = label;
+          } else if (vars.includes("capital")) {
+            // 首都の場合
+            const capital = binding["capital"]["value"];
+            if (!mergedData[key]["capital"]) {
+              mergedData[key]["capital"] = {};
+            }
+            if (!mergedData[key]["capital"][capital]) {
+              mergedData[key]["capital"][capital] = {};
+            }
+
+            if (binding["startTime"]) {
+              mergedData[key]["capital"][capital]["startTime"] =
+                binding["startTime"]["value"];
+            }
+            if (binding["pointInTime"]) {
+              mergedData[key]["capital"][capital]["pointInTime"] =
+                binding["pointInTime"]["value"];
+            }
+            if (binding["endTime"]) {
+              mergedData[key]["capital"][capital]["endTime"] =
+                binding["endTime"]["value"];
+            }
           } else {
+            // それ以外の変数はそのまま統合する
             vars.forEach((v: string) => {
               if (!mergedData[key][v]) {
                 mergedData[key][v] = [];

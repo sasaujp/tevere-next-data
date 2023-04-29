@@ -5,13 +5,13 @@ import path from "path";
 
 const sparqlBasePath = path.join(process.cwd(), "sparqlResults");
 
-async function queryWikidata(sparqlQuery: QueryType) {
+async function queryWikidata(category: string, sparqlQuery: QueryType) {
   const url = "https://query.wikidata.org/sparql";
   const queryUrl = `${url}?query=${encodeURIComponent(
     sparqlQuery.query
   )}&format=json`;
 
-  const folderPath = path.join(sparqlBasePath, sparqlQuery.category);
+  const folderPath = path.join(sparqlBasePath, category);
 
   if (!fs.existsSync(folderPath)) {
     fs.mkdirSync(folderPath, { recursive: true });

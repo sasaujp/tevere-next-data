@@ -1,7 +1,6 @@
 import { QueryType } from "./type.js";
 
 const Inception: QueryType = {
-  category: "country",
   name: "inception",
   query: `
   SELECT DISTINCT ?country ?inception WHERE {
@@ -18,7 +17,6 @@ const Inception: QueryType = {
 };
 
 const Dissolution: QueryType = {
-  category: "country",
   name: "dissolution",
   query: `
   SELECT DISTINCT ?country ?dissolution WHERE {
@@ -35,7 +33,6 @@ const Dissolution: QueryType = {
 };
 
 const Coordinates: QueryType = {
-  category: "country",
   name: "coodinates",
   query: `
   SELECT DISTINCT ?country ?coordinates WHERE {
@@ -50,12 +47,12 @@ const Coordinates: QueryType = {
   }
   `,
 };
-
+`
+`;
 const Capital: QueryType = {
-  category: "country",
   name: "capital",
   query: `
-  SELECT DISTINCT ?country ?coordinates WHERE {
+  SELECT DISTINCT ?country ?capital ?startTime ?endTime ?pointInTime WHERE {
     {
       ?country wdt:P31/wdt:P279* wd:Q7275 .
     } UNION {
@@ -63,14 +60,22 @@ const Capital: QueryType = {
     } UNION {
       ?country wdt:P31/wdt:P279* wd:Q3024240 .
     }
-
-    ?country wdt:P625 ?coordinates .
+    ?country p:P36 ?capital_statement .
+    ?capital_statement ps:P36 ?capital .
+    OPTIONAL {
+      ?capital_statement pq:P580 ?startTime .
+    }
+    OPTIONAL {
+      ?capital_statement pq:P582 ?endTime .
+    }
+    OPTIONAL {
+      ?capital_statement pq:P585 ?pointInTime .
+    }
   }
   `,
 };
 
 const Label: QueryType = {
-  category: "country",
   name: "label",
   query: `
   SELECT DISTINCT ?country ?label ?language WHERE {
@@ -88,10 +93,28 @@ const Label: QueryType = {
   `,
 };
 
+const Flag: QueryType = {
+  name: "flag",
+  query: `
+  SELECT DISTINCT ?country ?flag WHERE {
+    {
+      ?country wdt:P31/wdt:P279* wd:Q7275 .
+    } UNION {
+      ?country wdt:P31/wdt:P279* wd:Q6256 .
+    } UNION {
+      ?country wdt:P31/wdt:P279* wd:Q3024240 .
+    }
+    ?country wdt:P41 ?flag .
+  }
+  `,
+};
+
+export const Category = "country";
 export const Queries = {
   [Inception.name]: Inception,
   [Dissolution.name]: Dissolution,
   [Coordinates.name]: Coordinates,
   [Capital.name]: Capital,
   [Label.name]: Label,
+  [Flag.name]: Flag,
 };
