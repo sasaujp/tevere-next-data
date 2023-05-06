@@ -1,8 +1,6 @@
 import fs from "fs";
 import path from "path";
-
-const sparqlBasePath = path.join(process.cwd(), "sparqlResults");
-const basePath = path.join(process.cwd(), "results");
+import { basePath, sparqlBasePath } from "./defines.js";
 
 async function merge(category: string) {
   const folderPath = path.join(sparqlBasePath, category);
@@ -41,26 +39,33 @@ async function merge(category: string) {
               mergedData[key]["label"] = {};
             }
             mergedData[key]["label"][language] = label;
-          } else if (vars.includes("capital")) {
-            // 首都の場合
-            const capital = binding["capital"]["value"];
-            if (!mergedData[key]["capital"]) {
-              mergedData[key]["capital"] = {};
+          } else if (
+            vars.includes("startTime") ||
+            vars.includes("pointInTime") ||
+            vars.includes("endTime")
+          ) {
+            const target = vars.filter(
+              (v: string) =>
+                v !== "startTime" && v !== "pointInTime" && v !== "endTime"
+            )[0];
+            const targetValue = binding[target]["value"];
+            if (!mergedData[key][target]) {
+              mergedData[key][target] = {};
             }
-            if (!mergedData[key]["capital"][capital]) {
-              mergedData[key]["capital"][capital] = {};
+            if (!mergedData[key][target][targetValue]) {
+              mergedData[key][target][targetValue] = {};
             }
 
             if (binding["startTime"]) {
-              mergedData[key]["capital"][capital]["startTime"] =
+              mergedData[key][target][targetValue]["startTime"] =
                 binding["startTime"]["value"];
             }
             if (binding["pointInTime"]) {
-              mergedData[key]["capital"][capital]["pointInTime"] =
+              mergedData[key][target][targetValue]["pointInTime"] =
                 binding["pointInTime"]["value"];
             }
             if (binding["endTime"]) {
-              mergedData[key]["capital"][capital]["endTime"] =
+              mergedData[key][target][targetValue]["endTime"] =
                 binding["endTime"]["value"];
             }
           } else {
@@ -84,7 +89,5 @@ async function merge(category: string) {
     );
   });
 }
-
-const _merge = () => {};
 
 export default merge;

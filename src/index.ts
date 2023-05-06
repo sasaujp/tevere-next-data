@@ -2,6 +2,10 @@ import queryWikidata from "./queryWikidata.mjs";
 import merge from "./merge.mjs";
 import { Command } from "@commander-js/extra-typings";
 import { Queries } from "./queries/index.js";
+import { basePath } from "./defines.js";
+import path from "path";
+import fs from "fs";
+import { DBType, db } from "./db.js";
 
 const program = new Command();
 program
@@ -40,5 +44,17 @@ program
     }
     merge(target);
   });
+
+program.command("db <target>").action(async (target) => {
+  const dbType = target as DBType;
+  switch (dbType) {
+    case "country":
+      db(target as DBType);
+      break;
+    default:
+      console.error("Invalid target");
+      return;
+  }
+});
 
 program.parse();

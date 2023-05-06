@@ -2,8 +2,7 @@ import fetch from "node-fetch";
 import { QueryType } from "./queries/type.js";
 import fs from "fs";
 import path from "path";
-
-const sparqlBasePath = path.join(process.cwd(), "sparqlResults");
+import { sparqlBasePath } from "./defines.js";
 
 async function queryWikidata(category: string, sparqlQuery: QueryType) {
   const url = "https://query.wikidata.org/sparql";

@@ -11,7 +11,8 @@
     "start:prod": "npm run build && node dist/index.js",
     "country:all": "ts-node --esm src/index.ts sparql country all",
     "capital:all": "ts-node --esm src/index.ts sparql capital all",
-    "merge:all": "ts-node --esm src/index.ts merge all"
+    "merge:all": "ts-node --esm src/index.ts merge all",
+    "db:country": "ts-node --esm src/index.ts db country"
   },
   "keywords": [],
   "author": "",
@@ -19,6 +20,7 @@
   "dependencies": {
     "@types/node-fetch": "^2.6.3",
     "commander": "^10.0.0",
+    "dotenv": "^16.0.3",
     "node-fetch": "^3.3.1",
     "oclif": "^3.7.3"
   },
