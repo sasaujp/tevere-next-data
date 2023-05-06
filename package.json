@@ -13,6 +13,7 @@
     "city:all": "ts-node --esm src/index.ts sparql city all",
     "league:all": "ts-node --esm src/index.ts sparql league all",
     "state:all": "ts-node --esm src/index.ts sparql state all",
+    "leagueMember:all": "ts-node --esm src/index.ts sparql leagueMember all",
     "merge:all": "ts-node --esm src/index.ts merge all",
     "db:country": "ts-node --esm src/index.ts db country"
   },
